@@ -34,9 +34,9 @@ class SR:
         self.srclr = srclr  # tie high if functionality not needed
         self.oe = oe        # tie low if functionality not needed
 
-        self.ser = self.ser.init(ser.OUT, value=0)
-        self.srclk = self.srclk.init(srclk.OUT, value=0)
-        self.rclk = self.rclk.init(rclk.OUT, value=0)
+        self.ser.init(ser.OUT, value=0)
+        self.srclk.init(srclk.OUT, value=0)
+        self.rclk.init(rclk.OUT, value=0)
 
         if self.srclr is not None:
             self.srclr.init(srclr.OUT, value=1)

@@ -34,7 +34,7 @@ class SR:
         self.oe = oe        # tie low if functionality not needed
 
         self.buf = bytearray(len)
-        self.rclk = self.rclk.init(rclk.OUT, value=0)
+        self.rclk.init(rclk.OUT, value=0)
 
         if self.srclr is not None:
             self.srclr.init(srclr.OUT, value=1)
