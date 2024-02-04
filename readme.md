@@ -3,14 +3,38 @@
 A MicroPython library for 74HC595 8-bit shift registers.
 
 There's both an SPI version and a bit-bang version, each with a slightly
-different interface.
+different interface. See below.
 
 ![demo](docs/demo.jpg)
+
+
+### Installation
+
+Using mip via mpremote:
+
+```bash
+$ mpremote mip install github:mcauser/micropython-74hc595
+$ mpremote mip install github:mcauser/micropython-74hc595/examples
+```
+
+Using mip directly on a WiFi capable board:
+
+```python
+>>> import mip
+>>> mip.install("github:mcauser/micropython-74hc595")
+>>> mip.install("github:mcauser/micropython-74hc595/examples")
+```
+
+Manual installation:
+
+Copy `src/sr74hc595_bitbang.py` and `src/sr74hc595_spi.py` to the root directory of your device.
+
 
 ## SPI Version
 
 You can use either HSPI or SPI. This version is significantly faster than the
 bit-bang version, but is limited to writing whole bytes of data.
+
 
 ### SPI Example
 
@@ -18,7 +42,7 @@ bit-bang version, but is limited to writing whole bytes of data.
 
 ```python
 from machine import Pin, SPI
-from sr_74hc595_spi import SR
+from sr74hc595 import SR74HC595_SPI
 
 spi = SPI(1, 100000)
 rclk = Pin(5, Pin.OUT)
@@ -26,7 +50,7 @@ rclk = Pin(5, Pin.OUT)
 oe = Pin(33, Pin.OUT, value=0)    # low enables output
 srclr = Pin(32, Pin.OUT, value=1) # pulsing low clears data
 
-sr = SR(spi, rclk, 2) # chain of 2 shift registers
+sr = SR74HC595_SPI(spi, rclk, 2) # chain of 2 shift registers
 
 sr.pin(2,1)  # set pin 2 high of furthest shift register
 sr.pin(2)    # read pin 2
@@ -120,14 +144,14 @@ at the expense of the performance you get using SPI.
 
 ```python
 from machine import Pin
-from sr_74hc595_bitbang import SR
+from sr74hc595 import SR74HC595_BITBANG
 
 ser = Pin(23, Pin.OUT)
 rclk = Pin(5, Pin.OUT)
 srclk = Pin(18, Pin.OUT)
 
 # construct without optional pins
-sr = SR(ser, srclk, rclk)
+sr = SR74HC595_BITBANG(ser, srclk, rclk)
 
 sr.clear()  # raises RuntimeError because you haven't provide srclr pin
 sr.enable() # raises RuntimeError because you haven't provide oe pin
@@ -136,7 +160,7 @@ sr.enable() # raises RuntimeError because you haven't provide oe pin
 oe = Pin(33, Pin.OUT, value=0)    # low enables output
 srclr = Pin(32, Pin.OUT, value=1) # pulsing low clears data
 
-sr = SR(ser, srclk, rclk, srclr, oe)
+sr = SR74HC595_BITBANG(ser, srclk, rclk, srclr, oe)
 
 sr.bit(1)  # send high bit, do not latch yet
 sr.bit(0)  # send low bit, do not latch yet
@@ -209,6 +233,7 @@ the current state of the `ser` pin and copy it to the shift register memory.
 _clock()
 ```
 
+
 ## Chaining
 
 You can connect multiple 74HC595 shift registers together to form a chain.
@@ -225,11 +250,13 @@ The `QH\`` output pin on the first shift register goes into the next shift regis
 When clocking in data, the values appear on the closest shift register to the
 micro controller first, before overflowing into each chained shift register.
 
+
 ## Parts
 
-* [TinyPICO](https://www.tinypico.com/) $20.00 USD
-* [74HC595 DIP-16](https://www.aliexpress.com/item/32834183196.html) $0.77 AUD - 10pcs
-* [74HC595 breakout](https://www.aliexpress.com/item/32807747744.html) $0.88 AUD
+* [TinyPICO](https://www.tinypico.com/)
+* [74HC595 DIP-16](https://s.click.aliexpress.com/e/_DnLBdpL)
+* [74HC595 breakout](https://s.click.aliexpress.com/e/_Der4vyZ)
+
 
 ## Connections
 
@@ -253,11 +280,13 @@ SRCLR | Shift Register Clear   | Active low. Drive high to clear contents.
 QA-QH | Outputs                | 8 output pins
 QH\`  | Serial Output          | Connect to the next 74HC595 SER pin
 
+
 ## Links
 
 * [TinyPICO Getting Started](https://www.tinypico.com/gettingstarted)
 * [micropython.org](http://micropython.org)
 * [74HC595 datasheet](docs/sn74hc595n.pdf)
+
 
 ## License
 
