@@ -6,7 +6,8 @@ MicroPython 74HC595 8-Bit Shift Register
 https://github.com/mcauser/micropython-74hc595
 """
 
-__version__ = '1.0.0'
+__version__ = "1.0.1"
+
 
 class SR74HC595_BITBANG:
     def __init__(self, ser, srclk, rclk, srclr=None, oe=None):
@@ -14,7 +15,7 @@ class SR74HC595_BITBANG:
         self.srclk = srclk
         self.rclk = rclk
         self.srclr = srclr  # tie high if functionality not needed
-        self.oe = oe        # tie low if functionality not needed
+        self.oe = oe  # tie low if functionality not needed
 
         self.ser.init(ser.OUT, value=0)
         self.srclk.init(srclk.OUT, value=0)
@@ -47,7 +48,7 @@ class SR74HC595_BITBANG:
 
     def clear(self, latch=True):
         if self.srclr is None:
-            raise RuntimeError('srclr pin is required')
+            raise RuntimeError("srclr pin is required")
         self.srclr(0)
         self.srclr(1)
         if latch:
@@ -55,5 +56,5 @@ class SR74HC595_BITBANG:
 
     def enable(self, enabled=True):
         if self.oe is None:
-            raise RuntimeError('oe pin is required')
+            raise RuntimeError("oe pin is required")
         self.oe(not enabled)

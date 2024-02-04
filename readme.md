@@ -80,7 +80,7 @@ If you don't need to clear the outputs, connect `srclr` to vcc.
 If you don't need to disable the outputs, connect `oe` to gnd.
 
 ```python
-__init__(spi, rclk, len=1, srclr=None, oe=None)
+__init__(spi, rclk, length=1, srclr=None, oe=None)
 ```
 
 Read the boolean value of a pin. First pin is index `0`. If you are cascading shift

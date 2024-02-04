@@ -4,5 +4,5 @@
     ["sr74hc595/examples/basic_spi.py", "github:mcauser/micropython-74hc595/examples/basic_spi.py"]
   ],
   "deps": [],
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

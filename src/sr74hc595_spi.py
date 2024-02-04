@@ -6,16 +6,17 @@ MicroPython 74HC595 8-Bit Shift Register
 https://github.com/mcauser/micropython-74hc595
 """
 
-__version__ = '1.0.0'
+__version__ = "1.0.1"
+
 
 class SR74HC595_SPI:
-    def __init__(self, spi, rclk, len=1, srclr=None, oe=None):
+    def __init__(self, spi, rclk, length=1, srclr=None, oe=None):
         self.spi = spi
         self.rclk = rclk
         self.srclr = srclr  # tie high if functionality not needed
-        self.oe = oe        # tie low if functionality not needed
+        self.oe = oe  # tie low if functionality not needed
 
-        self.buf = bytearray(len)
+        self.buf = bytearray(length)
         self.rclk.init(rclk.OUT, value=0)
 
         if self.srclr is not None:
@@ -36,18 +37,18 @@ class SR74HC595_SPI:
         if value is None:
             return (self.buf[pin // 8] >> (pin % 8)) & 1
         elif value:
-            self.buf[pin // 8] |= (1 << (pin % 8))
+            self.buf[pin // 8] |= 1 << (pin % 8)
         else:
             self.buf[pin // 8] &= ~(1 << (pin % 8))
         self._write(latch)
 
     def toggle(self, pin, latch=True):
-        self.buf[pin // 8] ^= (1 << (pin % 8))
+        self.buf[pin // 8] ^= 1 << (pin % 8)
         self._write(latch)
 
     def clear(self, latch=True):
         if self.srclr is None:
-            raise RuntimeError('srclr pin is required')
+            raise RuntimeError("srclr pin is required")
         self.srclr(0)
         self.srclr(1)
         if latch:
@@ -55,7 +56,7 @@ class SR74HC595_SPI:
 
     def enable(self, enabled=True):
         if self.oe is None:
-            raise RuntimeError('oe pin is required')
+            raise RuntimeError("oe pin is required")
         self.oe(not enabled)
 
     def __getitem__(self, index):
