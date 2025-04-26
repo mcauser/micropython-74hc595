@@ -276,7 +276,7 @@ OE    | Output Enable          | Active low. Drive high to disable outputs.
 SER   | Serial Input           | Serial data sent LSB first.
 RCLK  | Storage Register Clock | Pulse to latch data to outputs.
 SRCLK | Shift Register Clock   | Serial input is read on rising edge.
-SRCLR | Shift Register Clear   | Active low. Drive high to clear contents.
+SRCLR | Shift Register Clear   | Active low. Drive/tie high to retain contents.
 QA-QH | Outputs                | 8 output pins
 QH\`  | Serial Output          | Connect to the next 74HC595 SER pin
 
